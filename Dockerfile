@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER AfterLogic Support <support@afterlogic.com>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,16 +10,16 @@ RUN apt-get install -y \
 	wget \
 	zip \
 	unzip \
-	php7.0 \
-	php7.0-cli \
-	php7.0-common \
-	php7.0-curl \
-	php7.0-json \
-	php7.0-mbstring \
-	php7.0-mysql \
-	php7.0-xml \
+	php7.2 \
+	php7.2-cli \
+	php7.2-common \
+	php7.2-curl \
+	php7.2-json \
+	php7.2-mbstring \
+	php7.2-mysql \
+	php7.2-xml \
 	apache2 \
-	libapache2-mod-php7.0 \
+	libapache2-mod-php7.2 \
 	mariadb-common \
 	mariadb-server \
 	mariadb-client
