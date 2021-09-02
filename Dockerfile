@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 MAINTAINER AfterLogic Support <support@afterlogic.com>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -10,16 +10,16 @@ RUN apt-get install -y \
 	wget \
 	zip \
 	unzip \
-	php7.0 \
-	php7.0-cli \
-	php7.0-common \
-	php7.0-curl \
-	php7.0-json \
-	php7.0-mbstring \
-	php7.0-mysql \
-	php7.0-xml \
+	php7.4 \
+	php7.4-cli \
+	php7.4-common \
+	php7.4-curl \
+	php7.4-json \
+	php7.4-mbstring \
+	php7.4-mysql \
+	php7.4-xml \
 	apache2 \
-	libapache2-mod-php7.0 \
+	libapache2-mod-php7.4 \
 	mariadb-common \
 	mariadb-server \
 	mariadb-client
@@ -36,15 +36,16 @@ COPY apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
 RUN rm -rf /tmp/alwm && \
-   mkdir -p /tmp/alwm && \
-   wget -P /tmp/alwm https://afterlogic.org/download/aurora-files.zip && \
-   unzip -q /tmp/alwm/aurora-files.zip -d /tmp/alwm/
+    mkdir -p /tmp/alwm && \
+    wget -P /tmp/alwm https://afterlogic.org/download/aurora-files.zip && \
+    unzip -q /tmp/alwm/aurora-files.zip -d /tmp/alwm/ && \
+    rm /tmp/alwm/aurora-files.zip
 
 RUN rm -rf /var/www/html && \
     mkdir -p /var/www/html && \
     cp -r /tmp/alwm/* /var/www/html && \
-    chown www-data.www-data -R /var/www/html && \
-    chmod 0777 -R /var/www/html/data
+    chown -R www-data:www-data /var/www/html && \
+    chmod -R 0777 /var/www/html/data
     
 RUN rm -f /var/www/html/afterlogic.php
 COPY afterlogic.php /var/www/html/afterlogic.php
