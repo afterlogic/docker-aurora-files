@@ -26,7 +26,7 @@ if [ $LOG_LEVEL != 'warn' ]; then
 fi
 
 # enable php short tags:
-/bin/sed -i "s/short_open_tag\ \=\ Off/short_open_tag\ \=\ On/g" /etc/php/7.2/apache2/php.ini
+/bin/sed -i "s/short_open_tag\ \=\ Off/short_open_tag\ \=\ On/g" /etc/php/7.4/apache2/php.ini
 
 # stdout server info:
 if [ $LOG_STDOUT ]; then
@@ -34,7 +34,7 @@ if [ $LOG_STDOUT ]; then
 fi
 
 # Set PHP timezone
-/bin/sed -i "s/\;date\.timezone\ \=/date\.timezone\ \=\ ${DATE_TIMEZONE}/" /etc/php/7.2/apache2/php.ini
+/bin/sed -i "s/\;date\.timezone\ \=/date\.timezone\ \=\ ${DATE_TIMEZONE}/" /etc/php/7.4/apache2/php.ini
 
 function runMariaDB() {
   /usr/bin/mysqld_safe --timezone=${DATE_TIMEZONE}&
