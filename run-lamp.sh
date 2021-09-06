@@ -62,6 +62,9 @@ if [[ ! -d /var/lib/mysql/afterlogic ]]; then
   echo "=> Database created!"
 
   php /var/www/html/afterlogic.php
+
+  chown -R www-data:www-data /var/www/html/data
+  chmod -R 0777 /var/www/html/data
 else
   echo "=> Using an existing database"
   runMariaDB
