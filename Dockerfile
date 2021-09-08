@@ -7,23 +7,24 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 RUN apt-get install -y \
-	wget \
-	zip \
-	unzip \
-	php7.4 \
-	php7.4-cli \
-	php7.4-common \
-	php7.4-curl \
-	php7.4-json \
-	php7.4-mbstring \
-	php7.4-mysql \
-	php7.4-xml \
-	apache2 \
-	libapache2-mod-php7.4 \
-	mariadb-common \
-	mariadb-server \
-	mariadb-client
-	
+    wget \
+    zip \
+    unzip \
+    php7.4 \
+    php7.4-cli \
+    php7.4-common \
+    php7.4-curl \
+    php7.4-json \
+    php7.4-mbstring \
+    php7.4-mysql \
+    php7.4-xml \
+    apache2 \
+    libapache2-mod-php7.4 \
+    mariadb-common \
+    mariadb-server \
+    mariadb-client \
+    jq
+
 ENV LOG_STDOUT **Boolean**
 ENV LOG_STDERR **Boolean**
 ENV LOG_LEVEL warn
