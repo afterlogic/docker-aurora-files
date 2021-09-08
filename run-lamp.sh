@@ -19,7 +19,7 @@ function runMariaDB() {
 }
 
 function countFilesInDir() {
-    find $1 -maxdepth 1 -not -path '*/.*' -not -path $1 | wc -l
+    find $1 -maxdepth 1 -not -path '*/.*' -not -path $1 2>/dev/null | wc -l
 }
 
 function mergeConfig() {
@@ -100,7 +100,9 @@ else
   runMariaDB
 fi
 
-applyUserConfigOverrides /opt/afterlogic/data/settings
+if [[ $(countFilesInDir /opt/afterlogic/data/settings) -gt 0 ]]; then
+  applyUserConfigOverrides /opt/afterlogic/data/settings
+fi
 
 # Run Apache:
 if [ $LOG_LEVEL == 'debug' ]; then
