@@ -8,6 +8,46 @@ function exportBoolean {
   fi
 }
 
+function runMariaDB() {
+  /usr/bin/mysqld_safe --timezone=${DATE_TIMEZONE}&
+
+  RET=1
+  while [[ RET -eq 1 ]]; do
+    sleep 5
+    RET=$(/etc/init.d/mysql status | grep stopped | wc -l);
+  done
+}
+
+function countFilesInDir() {
+    find $1 -maxdepth 1 -not -path '*/.*' -not -path $1 | wc -l
+}
+
+function mergeConfig() {
+    jq -s '.[0] * .[1]' $1 $2 > /tmp/tempConfig.json && mv -f /tmp/tempConfig.json $1
+}
+
+function applyUserConfigOverrides() {
+  configOverridesDir=$1
+  echo "=> Applying user config overrides"
+
+  aurorafilesSettingsDirPath=/var/www/html/data/settings
+
+  mainConfigFile=$configOverridesDir/config.json
+  if [[ -f $mainConfigFile ]]; then
+    echo "=> Processing $mainConfigFile"
+    mergeConfig $aurorafilesSettingsDirPath/config.json $mainConfigFile
+  fi
+
+  if [[ $(countFilesInDir $configOverridesDir/modules) -gt 0 ]]; then
+    echo "=> Applying modules configs"
+    for moduleConfig in $configOverridesDir/modules/*; do
+      echo "=> Processing $moduleConfig"
+      configFilePath="${moduleConfig##$configOverridesDir/}"
+      mergeConfig $aurorafilesSettingsDirPath/$configFilePath $configOverridesDir/$configFilePath
+    done
+  fi
+}
+
 exportBoolean LOG_STDOUT
 exportBoolean LOG_STDERR
 
@@ -36,16 +76,6 @@ fi
 # Set PHP timezone
 /bin/sed -i "s/\;date\.timezone\ \=/date\.timezone\ \=\ ${DATE_TIMEZONE}/" /etc/php/7.4/apache2/php.ini
 
-function runMariaDB() {
-  /usr/bin/mysqld_safe --timezone=${DATE_TIMEZONE}&
-
-  RET=1
-  while [[ RET -eq 1 ]]; do
-    sleep 5
-    RET=$(/etc/init.d/mysql status | grep stopped | wc -l);
-  done
-}
-
 # Initialize databases if none
 if [[ ! -d /var/lib/mysql/afterlogic ]]; then
   echo "=> Creating database..."
@@ -69,6 +99,8 @@ else
   echo "=> Using an existing database"
   runMariaDB
 fi
+
+applyUserConfigOverrides /opt/afterlogic/data/settings
 
 # Run Apache:
 if [ $LOG_LEVEL == 'debug' ]; then

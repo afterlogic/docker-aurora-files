@@ -32,10 +32,15 @@ and access the installation at http://localhost:800/
 Accessing admin interface
 ------------------------------
 
-To configure Aurora Files installation, log into admin interface using main installation URL.
+To configure Aurora Files installation, log into admin interface using main installation URL and `/adminpanel` path.
 
 Default credentials are **superadmin** login and empty password.
 
+Overriding configuration
+------------------------------
+
+To override Aurora Files configuration, put config files with overrides into `/opt/afterlogic/data/settings` or 
+`/opt/afterlogic/data/settings/modules`. The file names must be the same as the ones you want to override.
 
 Licensing Terms & Conditions
 ----------------------------
