@@ -39,8 +39,8 @@ Default credentials are **superadmin** login and empty password.
 Overriding configuration
 ------------------------------
 
-To override Aurora Files configuration, put config files with overrides into `/opt/afterlogic/data/settings` or 
-`/opt/afterlogic/data/settings/modules`. The file names must be the same as the ones you want to override.
+To override WebMail Lite configuration, put config files with overrides into `data/settings/` or 
+`data/settings/modules/`. The file names must be the same as the ones you want to override.
 
 Licensing Terms & Conditions
 ----------------------------
