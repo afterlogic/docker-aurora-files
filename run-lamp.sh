@@ -51,6 +51,12 @@ function applyUserConfigOverrides() {
 exportBoolean LOG_STDOUT
 exportBoolean LOG_STDERR
 
+
+cp -n /configs/config.json /var/www/html/data/settings/config.json
+cp -n /configs/modules/* /var/www/html/data/settings/modules
+
+
+
 if [ $LOG_STDERR ]; then
   /bin/ln -sf /dev/stderr /var/log/apache2/error.log
 else
